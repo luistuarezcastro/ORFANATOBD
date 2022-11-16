@@ -1,0 +1,170 @@
+/*==============================================================*/
+/*TEMA:ORFANATO - CREACION DE TABLAS                                             */
+/*==============================================================*/
+
+/*==============================================================*/
+/* Table: ADOPTADO                                              */
+/*==============================================================*/
+create table ADOPTADO (
+   ID_NINO              INT4                 not null,
+   NOMBRE               VARCHAR(40)          not null,
+   APELLIDO             VARCHAR(40)          not null,
+   CEDULA               VARCHAR(10)          null,
+   NACIONALIDAD         VARCHAR(15)          not null,
+   GENERO               VARCHAR(10)          not null,
+   constraint PK_ADOPTADO primary key (ID_NINO)
+);
+
+/*==============================================================*/
+/* Table: APROVACIONES_TIOS                                     */
+/*==============================================================*/
+create table APROVACIONES_TIOS (
+   ID_APROVACION        INT4                 not null,
+   ID_TIO               INT2                 not null,
+   N_APROVACION         INT4                 not null,
+   ANIO                 VARCHAR(5)           not null,
+   CANTIDAD_DINERO      FLOAT8               not null,
+   constraint PK_APROVACIONES_TIOS primary key (ID_APROVACION)
+);
+
+/*==============================================================*/
+/* Table: COMPORTAMIENTO                                        */
+/*==============================================================*/
+create table COMPORTAMIENTO (
+   ID_COMPORTAMIENTO    INT4                 not null,
+   ID_NINO              INT4                 not null,
+   ID_PROGRAMA          INT4                 not null,
+   FALTAS_MAXIMAS       INT4                 not null,
+   constraint PK_COMPORTAMIENTO primary key (ID_COMPORTAMIENTO)
+);
+
+/*==============================================================*/
+/* Table: EVALUACIONES                                          */
+/*==============================================================*/
+create table EVALUACIONES (
+   ID_EVALUACION        INT4                 not null,
+   ID_NINO              INT4                 not null,
+   ESTADO_PSICOLOGICO_FAVORABLE INT4                 not null,
+   ESTADO_PSICOLOGICO_DESFAVORABLE INT4                 not null,
+   ESTADO_DE_SALUD      VARCHAR(40)          not null,
+   ANIO_EVALUACION      VARCHAR(20)          not null,
+   constraint PK_EVALUACIONES primary key (ID_EVALUACION)
+);
+
+/*==============================================================*/
+/* Table: FAMILIA_ADOPTIVA                                      */
+/*==============================================================*/
+create table FAMILIA_ADOPTIVA (
+   ID_F_ADOPTIVA        INT4                 not null,
+   ID_NINO              INT4                 not null,
+   DIRECCION            VARCHAR(40)          not null,
+   PADRE                VARCHAR(40)          not null,
+   MADRE                VARCHAR(40)          not null,
+   TELEFONO1            VARCHAR(10)          not null,
+   TELEFONO2            VARCHAR(10)          not null,
+   ANIO_ADOPCION        VARCHAR(20)          not null,
+   constraint PK_FAMILIA_ADOPTIVA primary key (ID_F_ADOPTIVA)
+);
+
+/*==============================================================*/
+/* Table: FICHAS_DE_INGRESO                                     */
+/*==============================================================*/
+create table FICHAS_DE_INGRESO (
+   ID_FICHA             INT2                 not null,
+   ID_NINO              INT4                 not null,
+   ID_PATOLOGIA         INT4                 not null,
+   FECHA_INGRESO        VARCHAR(20)          not null,
+   PERSONA_QUE_LO_TRAJO VARCHAR(40)          not null,
+   COMPORTAMIENTO       VARCHAR(40)          not null,
+   LUGAR_DE_RESIDENCIA  VARCHAR(40)          not null,
+   VARON_INGRESADO      INT4                 not null,
+   MUJER_INGRESADA      INT4                 not null,
+   constraint PK_FICHAS_DE_INGRESO primary key (ID_FICHA)
+);
+/*==============================================================*/
+/* Table: GASTOS_COMPROMISOS                                    */
+/*==============================================================*/
+create table GASTOS_COMPROMISOS (
+   ID_COMPROMISO        INT4                 not null,
+   ID_NINO              INT4                 not null,
+   EVENTO               VARCHAR(40)          not null,
+   DINERO               FLOAT8               not null,
+   ANIO                 VARCHAR(10)          not null,
+   GENERO_ADOPTADO      VARCHAR(10)          not null,
+   constraint PK_GASTOS_COMPROMISOS primary key (ID_COMPROMISO)
+);
+/*==============================================================*/
+/* Table: PATOLOGIAS                                            */
+/*==============================================================*/
+create table PATOLOGIAS (
+   ID_PATOLOGIA         INT4                 not null,
+   ID_NINO              INT4                 not null,
+   DOCTOR               VARCHAR(40)          not null,
+   ENFERMEDAD           VARCHAR(30)          not null,
+   constraint PK_PATOLOGIAS primary key (ID_PATOLOGIA)
+);
+/*==============================================================*/
+/* Table: PROCESO_ADOPCION                                      */
+/*==============================================================*/
+create table PROCESO_ADOPCION (
+   ID_PROCESO           INT2                 not null,
+   ID_NINO              INT4                 not null,
+   VECES_ADOPCION         INT4                 not null,
+   FECHA_DE_VISITA      VARCHAR(20)          not null,
+   FUE_ADOPTADO         VARCHAR(2)           not null,
+   INFO_ADICIONAL       VARCHAR(40)          not null,
+   constraint PK_PROCESO_ADOPCION primary key (ID_PROCESO)
+);
+/*==============================================================*/
+/* Table: PROGRAMAS                                             */
+/*==============================================================*/
+create table PROGRAMAS (
+   ID_PROGRAMA          INT4                 not null,
+   ID_NINO              INT4                 not null,
+   TEMA_PROGRAMA        VARCHAR(50)          not null,
+   VECES_QUE_SE_REALIZO VARCHAR(30)          not null,
+   OBSERVACIONES        VARCHAR(30)          not null,
+   FALTAS_DE_COMPORTAMIENTO INT4                 not null,
+   constraint PK_PROGRAMAS primary key (ID_PROGRAMA)
+);
+
+
+/*==============================================================*/
+/* Table: SEGUIMIENTOS                                          */
+/*==============================================================*/
+create table SEGUIMIENTOS (
+   ID_SEGUIMIENTOS      INT4                 not null,
+   ID_F_ADOPTIVA        INT4                 not null,
+   ID_TIO               INT2                 not null,
+   FECHA                VARCHAR(20)          not null,
+   LUGAR                VARCHAR(30)          not null,
+   OBSERVACION          VARCHAR(40)          null,
+   CALIFICACION         VARCHAR(10)          not null,
+   ANIO_SEGUIMIENTO     VARCHAR(20)          not null,
+   N_SEGUIMIENTO        INT4                 not null,
+   constraint PK_SEGUIMIENTOS primary key (ID_SEGUIMIENTOS)
+);
+
+/*==============================================================*/
+/* Table: TIOS                                                  */
+/*==============================================================*/
+create table TIOS (
+   ID_TIO               INT2                 not null,
+   ID_NINO              INT4                 not null,
+   NOMBRE               VARCHAR(40)          not null,
+   APELLIDO             VARCHAR(40)          not null,
+   CEDULA               VARCHAR(10)          not null,
+   DIRECCION            VARCHAR(40)          not null,
+   TELEFONO             VARCHAR(10)          not null,
+   constraint PK_TIOS primary key (ID_TIO)
+);
+
+/*==============================================================*/
+/* Table: TRATAMIENTO                                           */
+/*==============================================================*/
+create table TRATAMIENTO (
+   ID_TRATAMIENTO       INT4                 not null,
+   ID_PATOLOGIA         INT4                 not null,
+   ESTADO_TRATAMIENTO   VARCHAR(40)          not null,
+   constraint PK_TRATAMIENTO primary key (ID_TRATAMIENTO)
+);
