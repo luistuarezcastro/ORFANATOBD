@@ -168,3 +168,79 @@ create table TRATAMIENTO (
    ESTADO_TRATAMIENTO   VARCHAR(40)          not null,
    constraint PK_TRATAMIENTO primary key (ID_TRATAMIENTO)
 );
+--LLAVES FORANEAS
+
+alter table APROVACIONES_TIOS
+   add constraint FK_APROVACI_RELATIONS_TIOS foreign key (ID_TIO)
+      references TIOS (ID_TIO)
+      on delete restrict on update restrict;
+
+alter table COMPORTAMIENTO
+   add constraint FK_COMPORTA_RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table COMPORTAMIENTO
+   add constraint FK_COMPORTA_RELATIONS_PROGRAMA foreign key (ID_PROGRAMA)
+      references PROGRAMAS (ID_PROGRAMA)
+      on delete restrict on update restrict;
+
+alter table EVALUACIONES
+   add constraint FK_EVALUACI_RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table FAMILIA_ADOPTIVA
+   add constraint FK_FAMILIA__RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table FICHAS_DE_INGRESO
+   add constraint FK_FICHAS_D_RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table FICHAS_DE_INGRESO
+   add constraint FK_FICHAS_D_RELATIONS_PATOLOGI foreign key (ID_PATOLOGIA)
+      references PATOLOGIAS (ID_PATOLOGIA)
+      on delete restrict on update restrict;
+
+alter table GASTOS_COMPROMISOS
+   add constraint FK_GASTOS_C_RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table PATOLOGIAS
+   add constraint FK_PATOLOGI_RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table PROCESO_ADOPCION
+   add constraint FK_PROCESO__RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table PROGRAMAS
+   add constraint FK_PROGRAMA_RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table SEGUIMIENTOS
+   add constraint FK_SEGUIMIE_RELATIONS_TIOS foreign key (ID_TIO)
+      references TIOS (ID_TIO)
+      on delete restrict on update restrict;
+
+alter table SEGUIMIENTOS
+   add constraint FK_SEGUIMIE_RELATIONS_FAMILIA_ foreign key (ID_F_ADOPTIVA)
+      references FAMILIA_ADOPTIVA (ID_F_ADOPTIVA)
+      on delete restrict on update restrict;
+
+alter table TIOS
+   add constraint FK_TIOS_RELATIONS_ADOPTADO foreign key (ID_NINO)
+      references ADOPTADO (ID_NINO)
+      on delete restrict on update restrict;
+
+alter table TRATAMIENTO
+   add constraint FK_TRATAMIE_RELATIONS_PATOLOGI foreign key (ID_PATOLOGIA)
+      references PATOLOGIAS (ID_PATOLOGIA)
+      on delete restrict on update restrict;
