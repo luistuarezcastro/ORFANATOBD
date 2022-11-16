@@ -1,0 +1,46 @@
+--CURSOR
+--UN CURSOR para que salga el nombre de cada tío y cuantas aprobaciones de gasto
+--ha hecho al año y la cantidad de dinero gastada
+
+do $$
+declare
+	registro Record;
+	Cursor_Aprovaciones Cursor for
+		select
+			(tios.nombre||''||tios.apellido) as Nombre,
+			ANIO as año,
+			count(APROVACIONES_TIOS) as Aprovaciones,
+			sum(APROVACIONES_TIOS.CANTIDAD_DINERO) as Dinero
+		from APROVACIONES_TIOS
+			inner join tios on APROVACIONES_TIOS.ID_TIO = tios.ID_TIO
+		group by tios.id_tio,APROVACIONES_TIOS.anio ;
+begin
+
+Open Cursor_Aprovaciones;
+Fetch Cursor_Aprovaciones into registro;
+while (found) loop
+Raise Notice 'Tio: %, Año:%, Aprovaciones hechas: %, Dinero Gastado: %', registro.Nombre, registro.año, registro.Aprovaciones, registro.Dinero;
+Fetch Cursor_Aprovaciones into registro;
+end loop;
+end$$
+Language 'plpgsql';
+
+
+--insert tabla tios
+--insert tabla tios
+INSERT INTO  tios (ID_TIO,ID_NINO, NOMBRE, APELLIDO, CEDULA, DIRECCION, TELEFONO) 
+VALUES (999,111,'Dionisio ','Anchundia','1315278971','km 4/2 tras de la fabril','0998786377');
+
+--insert tabla tios aporvaciones
+INSERT INTO  APROVACIONES_TIOS (ID_APROVACION,ID_TIO,N_APROVACION, ANIO,CANTIDAD_DINERO) 
+VALUES (10000,999,1,'2021',27.37);
+INSERT INTO  APROVACIONES_TIOS (ID_APROVACION,ID_TIO,N_APROVACION, ANIO,CANTIDAD_DINERO) 
+VALUES (1001,999,1,'2021',24.50);
+INSERT INTO  APROVACIONES_TIOS (ID_APROVACION,ID_TIO,N_APROVACION, ANIO,CANTIDAD_DINERO) 
+VALUES (1002,999,1,'2022',17.76);
+INSERT INTO  APROVACIONES_TIOS (ID_APROVACION,ID_TIO,N_APROVACION, ANIO,CANTIDAD_DINERO) 
+VALUES (1003,998,1,'2021',24.50);
+INSERT INTO  APROVACIONES_TIOS (ID_APROVACION,ID_TIO,N_APROVACION, ANIO,CANTIDAD_DINERO) 
+VALUES (1004,998,1,'2021',27.77);
+INSERT INTO  APROVACIONES_TIOS (ID_APROVACION,ID_TIO,N_APROVACION, ANIO,CANTIDAD_DINERO) 
+VALUES (1005,997,1,'2022',23.50);
