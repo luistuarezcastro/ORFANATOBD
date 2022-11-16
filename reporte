@@ -1,0 +1,7 @@
+--REPORTE
+select
+	count(ID_FICHA) AS ingresados_totales,
+	sum(varon_ingresado) as varones_ingresados,
+	sum(mujer_ingresada) as mujeres_ingresadas
+from FICHAS_DE_INGRESO
+where FECHA_INGRESO like '%2022%'
