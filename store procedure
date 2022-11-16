@@ -1,0 +1,35 @@
+--STORE PROCEDURE
+--STORED PROCEDURE que entre el id de un niño y me diga cuantas veces ese niño ha tenido problemas psicológicos
+
+create function ConsideradoAdopcion(id_nino int) returns table(NombreNino varchar, VecesAdopcion int, FueAdoptado varchar) as
+$$
+begin
+return query select 
+	cast((adoptado.nombre||' '||adoptado.apellido)as varchar) as Nombre,
+	cast(count(VECES_ADOPCION) as integer) as veces_considerado_adopcion,
+	PROCESO_ADOPCION.FUE_ADOPTADO as resultado_del_niño
+from PROCESO_ADOPCION
+	inner join adoptado on adoptado.id_nino = PROCESO_ADOPCION.ID_NINO
+	group by proceso_adopcion.id_nino,adoptado.nombre,adoptado.apellido,PROCESO_ADOPCION.FUE_ADOPTADO;
+end;
+$$
+language plpgsql;
+
+
+/*==============================================================*/
+/* VALORES YA INGRESADOS
+INSERT INTO adoptado (id_nino, nombre, apellido, cedula, nacionalidad, genero) 
+VALUES (111,'luis alexander','Cedeño Rosero', 1316278927, 'ecuatoriana', 'masculino');
+INSERT INTO adoptado (id_nino, nombre, apellido, cedula, nacionalidad, genero) 
+VALUES (112,'Maria Alejandra','Espinoza Castro', 1315849321, 'ecuatoriana', 'Femenino');
+INSERT INTO adoptado (id_nino, nombre, apellido, cedula, nacionalidad, genero) 
+VALUES (113,'Ethan Jose','Torrez Tapia', 1317843923, 'ecuatoriana', 'masculino'); */
+/*==============================================================*/
+
+--INSERT TABLA PROCESO ADOPCION
+INSERT INTO PROCESO_ADOPCION (ID_PROCESO,id_nino, VECES_ADOPCION, FECHA_DE_VISITA, FUE_ADOPTADO, INFO_ADICIONAL) 
+VALUES (1,111,1,'23/1/2021','NO','NINGUNA');
+INSERT INTO PROCESO_ADOPCION (ID_PROCESO,id_nino, VECES_ADOPCION, FECHA_DE_VISITA, FUE_ADOPTADO, INFO_ADICIONAL) 
+VALUES (2,111,1,'30/8/2021','NO','NINGUNA');
+--RESULTADO STORE PROCEDURE EN EL NIÑO CON ID 111
+select * from ConsideradoAdopcion(111);
