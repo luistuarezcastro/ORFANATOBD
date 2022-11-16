@@ -1,0 +1,64 @@
+--	CONSULTA 1
+-- Mostrar un seguimiento por cada personal administrativo de nuestro orfanato, que salga el nombre del personal 
+-- que hizo tal seguimiento junto con el año en que lo hizo y cuantos seguimientos se hicieron es el respectivo año.
+SELECT
+TIOS.ID_TIO AS ID_DEL_TIO,
+TIOS.NOMBRE AS NOMBRE_DEL_TIO,
+SEGUIMIENTOS.ANIO_SEGUIMIENTO AS AÑO_DEL_SEGUIMIENTO,
+count (N_SEGUIMIENTO) as numero_de_seguimiento
+FROM TIOS
+INNER JOIN SEGUIMIENTOS ON SEGUIMIENTOS.ID_TIO = TIOS.ID_TIO
+group by TIOS.ID_TIO,SEGUIMIENTOS.ANIO_SEGUIMIENTO;
+
+--CONSULTA 2
+--EN EL AÑO 2021
+--Histórico de las adopciones por año, es decir, cuantos huérfanos entraron al orfanato en un año 
+--especifico y en ese mismo año cuantos de esos huérfanos fueron adoptados con éxito
+
+(select 
+count (id_nino) as huerfanos_ingresados_y_huerfanos_adoptados
+from fichas_de_ingreso
+where FECHA_INGRESO like '%2021%'
+)
+UNION ALL
+(select 
+count (id_nino) 
+from familia_adoptiva
+where ANIO_ADOPCION = '2021'
+)
+
+--consulta 3
+-- Consultar gastos de las niñas por cada año, un ejemplo podría ser si en el 2021 en las niñas adoptadas
+--se fueron X cantidad de dinero
+
+--MUJERES 2021
+select 
+    ANIO AS AÑO,
+	count(GENERO_ADOPTADO) AS total_mujeres_2021,
+	sum(DINERO) as gasto_mujeres_2021
+from gastos_compromisos
+where GENERO_ADOPTADO='mujer' and ANIO='2021'
+group by ANIO;
+
+--HOMBRES 2021
+select 
+    ANIO AS AÑO,
+	count(GENERO_ADOPTADO) AS total_hombress_2021,
+	sum(DINERO) as gasto_hombres_2021
+from gastos_compromisos
+where GENERO_ADOPTADO='hombre' and ANIO='2021'
+group by ANIO;
+
+--CONSULTA 4
+--Mostrar rendimientos psicológicos, por ejemplo, en el año 2021 hay 8 rendimientos psicológicos
+--de los cuales 6 fueron buenos y 2 malos
+
+select
+ANIO_EVALUACION AS AÑO_EVALUADO,
+	count(ID_EVALUACION) AS evaluaciones_totales,
+	sum(ESTADO_PSICOLOGICO_FAVORABLE) as evaluaciones_favorables,
+	sum(ESTADO_PSICOLOGICO_DESFAVORABLE) as evaluaciones_desfavorables
+from evaluaciones
+where ANIO_EVALUACION='2022'
+group by ANIO_EVALUACION;
+
